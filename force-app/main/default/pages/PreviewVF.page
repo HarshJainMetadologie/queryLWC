@@ -1,0 +1,30 @@
+<apex:page controller="PreviewVFController" showHeader="false" sidebar="false" renderAs="pdf" standardStylesheets="false">
+    <div class="slds-m-around_medium">
+        <h2 style="margin-left:1%; margin-bottom:10px;">Preview: {!objectName}</h2>
+
+        <apex:outputPanel rendered="{!NOT(ISNULL(records))}">
+            <apex:variable var="rowNumber" value="{!0}"/>
+            <apex:repeat value="{!records}" var="rec">
+                <apex:variable var="rowNumber" value="{!rowNumber + 1}"/>
+
+                <h3 style="font-weight:bold; margin-bottom:8px;">Record {!rowNumber}</h3>
+                <table style="border-collapse: collapse; width:100%; margin-bottom:15px;">
+                    <tbody>
+                        <apex:repeat value="{!fields}" var="f">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 6px; font-weight:bold; width:35%;">{!f}</td>
+                                <td style="border: 1px solid black; padding: 6px; width:65%;">
+                                    {!IF(rec[f] != null, rec[f], '-')}
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </apex:repeat>
+        </apex:outputPanel>
+
+        <apex:outputPanel rendered="{!ISNULL(records) || records.size = 0}">
+            <p>No records selected.</p>
+        </apex:outputPanel>
+    </div>
+</apex:page>

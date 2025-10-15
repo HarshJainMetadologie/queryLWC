@@ -1,0 +1,17 @@
+<template>
+    <lightning-modal-header label="Email Preview"></lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-input type="text" label="To" value={toAddresses} onchange={handleToChange} style="width: 30%;"></lightning-input>
+        <lightning-input type="text" label="CC" value={ccAddresses} onchange={handleCcChange} style="width: 30%;"></lightning-input>
+        <lightning-textarea label="Email Body" value={emailBody} onchange={handleBodyChange}></lightning-textarea>
+
+        <div class="slds-m-top_medium">
+            <iframe src={vfPageUrl} width="100%" height="700px"></iframe>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Send Email" variant="brand" onclick={sendEmail} style="margin-right: 1.5%;"></lightning-button>
+        <lightning-button label="Save PDF" variant="neutral" onclick={handleSavePdfClick} style="margin-right: 1.5%;"></lightning-button>
+        <lightning-button label="Cancel" variant="neutral" onclick={close}></lightning-button>
+    </lightning-modal-footer>
+</template>

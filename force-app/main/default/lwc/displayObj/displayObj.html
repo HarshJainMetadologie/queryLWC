@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="All Salesforce Objects" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <template if:true={allObjects.data}>
+                <ul>
+                    <template for:each={allObjects.data} for:item="objectName">
+                        <li key={objectName}>{objectName}</li>
+                    </template>
+                </ul>
+            </template>
+            <template if:true={allObjects.error}>
+                <div class="slds-theme_error slds-box">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" variant="inverse"></lightning-icon>
+                    <span class="slds-p-left_x-small">
+                        An error occurred while loading the data.
+                    </span>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
