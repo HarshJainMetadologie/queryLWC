@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>*</members>
+        <members>DynamicQueryController</members>
+        <members>EmailServiceController</members>
+        <members>objectDataController</members>
+        <members>PreviewVFController</members>
         <name>ApexClass</name>
     </types>
+    
     <types>
-        <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
+        <members>PreviewVF</members>
         <name>ApexPage</name>
     </types>
     <types>
-        <members>*</members>
-        <name>ApexTestSuite</name>
+        <members>Email_Audit_Log__c</members>
+        <name>CustomObject</name>
     </types>
     <types>
-        <members>*</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>AuraDefinitionBundle</name>
-    </types>
-    <types>
-        <members>*</members>
+        <members>emailPreviewModal</members>
+        <members>queryRecords</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>*</members>
-        <name>StaticResource</name>
+        <members>Object_Data_Permission</members>
+        <members>Object_Email_Audit_Logs</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Query_Records</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Records</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Email_Audit_Log__c</members>
+        <name>CustomTab</name>
     </types>
     <version>64.0</version>
 </Package>

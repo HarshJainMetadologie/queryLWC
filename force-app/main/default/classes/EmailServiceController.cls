@@ -57,6 +57,7 @@ public with sharing class EmailServiceController {
             email.setReplyTo(UserInfo.getUserEmail());
             email.setSenderDisplayName(UserInfo.getName());
             email.setUseSignature(true);
+            email.setBccSender(false);
             email.setSaveAsActivity(true);
 
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{email});

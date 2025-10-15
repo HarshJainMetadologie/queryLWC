@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0FFEEA</headerColor>
+        <logo>Screenshot_20251003_at_82520PM</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <description>Fetch Records</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Object Data</label>
+    <navType>Standard</navType>
+    <tabs>Records</tabs>
+    <tabs>Email_Audit_Log__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Query_Records_UtilityBar</utilityBar>
+</CustomApplication>
