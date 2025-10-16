@@ -5,6 +5,10 @@
         <members>EmailServiceController</members>
         <members>objectDataController</members>
         <members>PreviewVFController</members>
+        <members>EmailServiceControllerTest</members>
+        <members>DynamicQueryControllerTest</members>
+        <members>objectDataControllerTest</members>
+        <members>PreviewVFControllerTest</members>
         <name>ApexClass</name>
     </types>
     

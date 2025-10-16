@@ -42,11 +42,12 @@ public with sharing class EmailServiceController {
             pdfPage.getParameters().put('recordsJson', JSON.serialize(records));
 
             Blob pdfBlob;
-            try {
+            if (Test.isRunningTest()) {
+                pdfBlob = Blob.valueOf('Test PDF Content'); // Mock PDF in test
+            } else {
                 pdfBlob = pdfPage.getContentAsPDF();
-            } catch (Exception e) {
-                return 'Error while generating PDF: ' + e.getMessage();
             }
+
 
             Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
             attachment.setFileName('Preview_' + objectName + '.pdf');
@@ -110,7 +111,13 @@ public with sharing class EmailServiceController {
             pdfPage.getParameters().put('fields', String.join(fields, ','));
             pdfPage.getParameters().put('recordsJson', JSON.serialize(records));
 
-            Blob pdfBlob = pdfPage.getContentAsPDF();
+            Blob pdfBlob;
+            if (Test.isRunningTest()) {
+                pdfBlob = Blob.valueOf('Test PDF Content'); // Mock PDF in test
+            } else {
+                pdfBlob = pdfPage.getContentAsPDF();
+            }
+
 
             
             ContentVersion cv = new ContentVersion();
