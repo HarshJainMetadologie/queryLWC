@@ -35,9 +35,11 @@ public with sharing class DynamicQueryController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<SObject> getRecords(String objectName, List<String> fieldNames, Integer limitSize) {
+    public static List<Map<String, Object>> getRecords(String objectName, List<String> fieldNames, Integer limitSize) {
+        List<Map<String, Object>> filteredRecords = new List<Map<String, Object>>();
+
         if (String.isBlank(objectName) || fieldNames == null || fieldNames.isEmpty()) {
-            return new List<SObject>();
+            return filteredRecords;
         }
 
         String soqlQuery = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + objectName;
@@ -47,26 +49,25 @@ public with sharing class DynamicQueryController {
 
         List<SObject> records = Database.query(soqlQuery);
 
-        // Filter out fields that are null in all records
-        Set<String> fieldsWithData = new Set<String>();
-        for (SObject rec : records) {
+        // Convert records into maps
+        for (SObject record : records) {
+            Map<String, Object> recordMap = new Map<String, Object>();
+            Boolean hasValue = false;
+
             for (String field : fieldNames) {
-                if (rec.get(field) != null && String.valueOf(rec.get(field)).trim() != '') {
-                    fieldsWithData.add(field);
+                Object val = record.get(field);
+                if (val != null && String.valueOf(val).trim() != '') {
+                    recordMap.put(field, val);
+                    hasValue = true;
                 }
             }
-        }
 
-        // Only keep fields that have data
-        if (!fieldsWithData.isEmpty()) {
-            List<String> filteredFields = new List<String>(fieldsWithData);
-            String filteredQuery = 'SELECT ' + String.join(filteredFields, ',') + ' FROM ' + objectName;
-            if (limitSize != null && limitSize > 0) {
-                filteredQuery += ' LIMIT ' + limitSize;
+            if (hasValue) {
+                filteredRecords.add(recordMap);
             }
-            records = Database.query(filteredQuery);
         }
 
-        return records;
+        return filteredRecords;
     }
+
 }

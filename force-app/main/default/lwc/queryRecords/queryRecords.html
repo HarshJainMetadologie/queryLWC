@@ -28,21 +28,21 @@
                     label="All Fields"
                     checked={isAllFieldsSelected}
                     onchange={handleAllFieldsChange}
-                    disabled={isDiableAllFields}>
+                    disabled={isDisableAllFields}>
                 </lightning-input>
                 
                 <lightning-input type="checkbox"
                     label="Standard Fields"
                     checked={isAllStandardSelected}
                     onchange={handleAllStandardFieldsChange}
-                    disabled={isDiableStandardFields}>
+                    disabled={isDisableStandardFields}>
                 </lightning-input>
 
                 <lightning-input type="checkbox"
                     label="Custom Fields"
                     checked={isAllCustomSelected}
                     onchange={handleAllCustomFieldsChange}
-                    disabled={isDiableCustomFields}>
+                    disabled={isDisableCustomFields}>
                 </lightning-input>
 
                 <div style="display: flex; justify-content:right; margin-top:10px;">
