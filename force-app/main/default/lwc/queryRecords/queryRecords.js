@@ -144,6 +144,7 @@ export default class QueryRecords extends LightningElement {
         return;
     }
 
+
     // Fetch full record details using selected Ids and fields
     const selectedRecordIds = this.selectedRowIds;
     const result = await getRecords({

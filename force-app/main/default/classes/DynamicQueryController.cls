@@ -41,12 +41,32 @@ public with sharing class DynamicQueryController {
         }
 
         String soqlQuery = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + objectName;
-        
-        
         if (limitSize != null && limitSize > 0) {
             soqlQuery += ' LIMIT ' + limitSize;
         }
 
-        return Database.query(soqlQuery);
+        List<SObject> records = Database.query(soqlQuery);
+
+        // Filter out fields that are null in all records
+        Set<String> fieldsWithData = new Set<String>();
+        for (SObject rec : records) {
+            for (String field : fieldNames) {
+                if (rec.get(field) != null && String.valueOf(rec.get(field)).trim() != '') {
+                    fieldsWithData.add(field);
+                }
+            }
+        }
+
+        // Only keep fields that have data
+        if (!fieldsWithData.isEmpty()) {
+            List<String> filteredFields = new List<String>(fieldsWithData);
+            String filteredQuery = 'SELECT ' + String.join(filteredFields, ',') + ' FROM ' + objectName;
+            if (limitSize != null && limitSize > 0) {
+                filteredQuery += ' LIMIT ' + limitSize;
+            }
+            records = Database.query(filteredQuery);
+        }
+
+        return records;
     }
 }
