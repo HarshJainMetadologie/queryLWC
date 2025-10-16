@@ -36,10 +36,17 @@ public class DynamicQueryControllerTest {
 
     @IsTest
     static void testGetRecords() {
-        // Create test records
-        Account acc1 = new Account(Name='Test Account 1');
-        Account acc2 = new Account(Name='Test Account 2');
-        insert new List<Account>{acc1, acc2};
+        // Create test records with unique names
+        List<Account> accountsToInsert = new List<Account>();
+        for (Integer i = 1; i <= 2; i++) {
+            accountsToInsert.add(new Account(
+                Name = 'Test Account ' + i + '_' + String.valueOf(Crypto.getRandomInteger())
+            ));
+        }
+
+        Test.startTest();
+        insert accountsToInsert;
+        Test.stopTest();
         
         // Fields to query
         List<String> fieldNames = new List<String>{'Id','Name'};
