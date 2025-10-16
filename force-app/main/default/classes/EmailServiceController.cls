@@ -36,7 +36,7 @@ public with sharing class EmailServiceController {
             email.setSubject(subject);
             email.setPlainTextBody(body);
 
-            PageReference pdfPage = Page.PreviewVF;
+            PageReference pdfPage = Page.Harsh02__PreviewVF;
             pdfPage.getParameters().put('objectName', objectName);
             pdfPage.getParameters().put('fields', String.join(fields, ','));
             pdfPage.getParameters().put('recordsJson', JSON.serialize(records));
@@ -106,7 +106,7 @@ public with sharing class EmailServiceController {
     public static String savePdfToUser(String objectName, List<String> fields, List<Map<String, Object>> records) {
         try {
             
-            PageReference pdfPage = Page.PreviewVF;
+            PageReference pdfPage = Page.Harsh02__PreviewVF;
             pdfPage.getParameters().put('objectName', objectName);
             pdfPage.getParameters().put('fields', String.join(fields, ','));
             pdfPage.getParameters().put('recordsJson', JSON.serialize(records));
