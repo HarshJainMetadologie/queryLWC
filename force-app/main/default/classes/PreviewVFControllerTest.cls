@@ -22,7 +22,6 @@ private class PreviewVFControllerTest {
         PageReference pageRef = Page.PreviewVF;
         Test.setCurrentPage(pageRef);
 
-        // Use empty JSON array to avoid deserialization errors
         ApexPages.currentPage().getParameters().put('recordsJson', '[]');
 
         PreviewVFController ctrl = new PreviewVFController();

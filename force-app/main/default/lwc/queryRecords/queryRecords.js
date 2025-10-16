@@ -134,22 +134,32 @@ export default class QueryRecords extends LightningElement {
     }
 
     async handleGeneratePreview() {
-        if (!this.selectedObject || this.selectedFields.length === 0) {
-            alert('Select object and at least one field.');
-            return;
-        }
-
-        if (this.selectedRows.length === 0) {
-            alert('Please select at least one row to preview.');
-            return;
-        }
-
-        
-        await EmailPreviewModal.open({
-            size: 'large',
-            objectName: this.selectedObject,
-            selectedFields: this.selectedFields,
-            records: this.selectedRows 
-        });
+    if (!this.selectedObject || this.selectedFields.length === 0) {
+        alert('Select object and at least one field.');
+        return;
     }
+
+    if (this.selectedRowIds.length === 0) {
+        alert('Please select at least one row to preview.');
+        return;
+    }
+
+    // Fetch full record details using selected Ids and fields
+    const selectedRecordIds = this.selectedRowIds;
+    const result = await getRecords({
+        objectName: this.selectedObject,
+        fieldNames: this.selectedFields,
+        limitSize: null // not needed here
+    });
+
+    const filteredRecords = result.filter(r => selectedRecordIds.includes(r.Id));
+
+    await EmailPreviewModal.open({
+        size: 'large',
+        objectName: this.selectedObject,
+        selectedFields: this.selectedFields,
+        records: filteredRecords
+    });
+}
+
 }

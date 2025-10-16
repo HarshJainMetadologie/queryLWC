@@ -1,3 +1,3 @@
-public class DeactivateContactsBatch implements Database.Batchable<SObject> {
+public class test  {
 
 }
