@@ -1,8 +1,6 @@
 <apex:page controller="PreviewVFController" showHeader="false" sidebar="false" renderAs="pdf" standardStylesheets="false">
     <div class="slds-m-around_medium">
         <h2 style="margin-left:1%; margin-bottom:10px;">Preview: {!objectName}</h2>
-        <h3>Debug</h3>
-        <p>Number of records deserialized: {!records.size}</p>
         <apex:outputPanel rendered="{!NOT(ISNULL(records)) && records.size > 0}">
             <apex:variable var="rowNumber" value="{!0}"/>
             <apex:repeat value="{!records}" var="rec">

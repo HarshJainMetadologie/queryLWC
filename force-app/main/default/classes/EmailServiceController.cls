@@ -127,7 +127,7 @@ public with sharing class EmailServiceController {
 
             Blob pdfBlob;
             if (Test.isRunningTest()) {
-                pdfBlob = Blob.valueOf('Test PDF Content'); // Mock PDF in test
+                pdfBlob = Blob.valueOf('Test PDF Content'); 
             } else {
                 pdfBlob = pdfPage.getContentAsPDF();
             }
