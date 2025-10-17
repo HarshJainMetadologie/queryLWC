@@ -36,18 +36,31 @@ public with sharing class EmailServiceController {
             email.setSubject(subject);
             email.setPlainTextBody(body);
 
+            
+            List<Map<String, Object>> filteredRecords = new List<Map<String, Object>>();
+            for (Map<String, Object> record : records) {
+                Map<String, Object> cleanRecord = new Map<String, Object>();
+                for (String fieldName : record.keySet()) {
+                    Object value = record.get(fieldName);
+                    if (value != null && String.valueOf(value).trim() != '') {
+                        cleanRecord.put(fieldName, value);
+                    }
+                }
+                filteredRecords.add(cleanRecord);
+            }
+
+            
             PageReference pdfPage = Page.Harsh02__PreviewVF;
             pdfPage.getParameters().put('objectName', objectName);
             pdfPage.getParameters().put('fields', String.join(fields, ','));
-            pdfPage.getParameters().put('recordsJson', JSON.serialize(records));
+            pdfPage.getParameters().put('recordsJson', JSON.serialize(filteredRecords));
 
             Blob pdfBlob;
             if (Test.isRunningTest()) {
-                pdfBlob = Blob.valueOf('Test PDF Content'); // Mock PDF in test
+                pdfBlob = Blob.valueOf('Test PDF Content'); 
             } else {
                 pdfBlob = pdfPage.getContentAsPDF();
             }
-
 
             Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
             attachment.setFileName('Preview_' + objectName + '.pdf');
@@ -62,6 +75,7 @@ public with sharing class EmailServiceController {
             email.setSaveAsActivity(true);
 
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{email});
+
             try {
                 Email_Audit_Log__c log = new Email_Audit_Log__c(
                     Email_Action__c = 'Sent',
@@ -86,7 +100,6 @@ public with sharing class EmailServiceController {
                     Body_Preview__c = email.getPlainTextBody()
                 );
                 insert log;
-
                 System.debug('Error sending email: ' + e.getMessage());
             }
 
@@ -100,6 +113,7 @@ public with sharing class EmailServiceController {
             return 'Unexpected Error: ' + e.getMessage();
         }
     }
+
 
 
     @AuraEnabled

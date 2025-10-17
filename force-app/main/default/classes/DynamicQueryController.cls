@@ -35,39 +35,59 @@ public with sharing class DynamicQueryController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, Object>> getRecords(String objectName, List<String> fieldNames, Integer limitSize) {
+    public static Map<String, Object> getRecords(String objectName, List<String> fieldNames, Integer limitSize) {
+        Map<String, Object> response = new Map<String, Object>();
         List<Map<String, Object>> filteredRecords = new List<Map<String, Object>>();
+        Set<String> nonEmptyFields = new Set<String>();
 
         if (String.isBlank(objectName) || fieldNames == null || fieldNames.isEmpty()) {
-            return filteredRecords;
+            response.put('records', filteredRecords);
+            response.put('fields', new List<String>());
+            return response;
         }
 
-        String soqlQuery = 'SELECT ' + String.join(fieldNames, ',') + ' FROM ' + objectName;
+        // Avoid relationship fields to prevent null reference errors
+        List<String> safeFields = new List<String>();
+        for (String f : fieldNames) {
+            if (!f.contains('.')) safeFields.add(f);
+        }
+
+        String soqlQuery = 'SELECT ' + String.join(safeFields, ',') + ' FROM ' + objectName;
         if (limitSize != null && limitSize > 0) {
             soqlQuery += ' LIMIT ' + limitSize;
         }
 
         List<SObject> records = Database.query(soqlQuery);
 
-        // Convert records into maps
+        // Detect non-empty fields
         for (SObject record : records) {
-            Map<String, Object> recordMap = new Map<String, Object>();
-            Boolean hasValue = false;
-
-            for (String field : fieldNames) {
+            for (String field : safeFields) {
                 Object val = record.get(field);
                 if (val != null && String.valueOf(val).trim() != '') {
-                    recordMap.put(field, val);
+                    nonEmptyFields.add(field);
+                }
+            }
+        }
+
+        // Filter out empty records (where all selected fields are null)
+        for (SObject record : records) {
+            Map<String, Object> recMap = new Map<String, Object>();
+            Boolean hasValue = false;
+
+            for (String field : nonEmptyFields) {
+                Object val = record.get(field);
+                if (val != null && String.valueOf(val).trim() != '') {
+                    recMap.put(field, val);
                     hasValue = true;
                 }
             }
 
-            if (hasValue) {
-                filteredRecords.add(recordMap);
-            }
+            if (hasValue) filteredRecords.add(recMap);
         }
 
-        return filteredRecords;
+        response.put('records', filteredRecords);
+        response.put('fields', new List<String>(nonEmptyFields));
+        return response;
     }
 
 }

@@ -2,7 +2,7 @@
     <div class="slds-m-around_medium">
         <h2 style="margin-left:1%; margin-bottom:10px;">Preview: {!objectName}</h2>
 
-        <apex:outputPanel rendered="{!NOT(ISNULL(records))}">
+        <apex:outputPanel rendered="{!ISNULL(records) || records.size == 0}">
             <apex:variable var="rowNumber" value="{!0}"/>
             <apex:repeat value="{!records}" var="rec">
                 <apex:variable var="rowNumber" value="{!rowNumber + 1}"/>

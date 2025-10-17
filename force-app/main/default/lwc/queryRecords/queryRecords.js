@@ -119,6 +119,7 @@ export default class QueryRecords extends LightningElement {
         if (!this.selectedObject || this.selectedFields.length === 0) {
             this.records = [];
             this.noRecords = true;
+            this.columns = [];
             return;
         }
 
@@ -128,13 +129,13 @@ export default class QueryRecords extends LightningElement {
             limitSize: this.recordLimit
         })
             .then(result => {
-                this.records = result;
-                this.noRecords = result.length === 0;
+                const { records, fields } = result;
 
-                
-                if (result.length > 0) {
-                    const firstRecord = result[0];
-                    this.columns = Object.keys(firstRecord).map(field => ({
+                this.records = records || [];
+                this.noRecords = this.records.length === 0;
+
+                if (this.records.length > 0) {
+                    this.columns = fields.map(field => ({
                         label: field,
                         fieldName: field
                     }));
@@ -146,8 +147,10 @@ export default class QueryRecords extends LightningElement {
                 console.error('Error fetching records:', error);
                 this.records = [];
                 this.columns = [];
+                this.noRecords = true;
             });
     }
+
 
     
     handleRowSelection(event) {
