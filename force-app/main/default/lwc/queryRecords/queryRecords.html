@@ -1,6 +1,5 @@
 <template>
     <lightning-card title="Record Viewer & PDF Preview" icon-name="standard:account">
-        <!-- Object Selection -->
         <div class="slds-p-around_medium slds-grid slds-wrap slds-grid_align-spread">
             <lightning-combobox
                 name="objectSelector"
@@ -13,7 +12,6 @@
             </lightning-combobox>
         </div>
 
-        <!-- Field Selection -->
         <template if:true={fieldOptions.length}>
             <div class="slds-p-around_medium slds-box slds-theme_default slds-m-horizontal_medium slds-m-bottom_medium">
                 <lightning-dual-listbox
@@ -26,7 +24,6 @@
                     onchange={handleFieldChange}>
                 </lightning-dual-listbox>
 
-                <!-- Checkboxes for field filters -->
                 <div class="slds-m-top_small slds-grid slds-wrap slds-grid_vertical-align-center">
                     <lightning-input
                         type="checkbox"
@@ -55,7 +52,6 @@
                     </lightning-input>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="slds-m-top_medium slds-text-align_right">
                     <lightning-button 
                         label="Generate Preview"
@@ -68,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Record Limit and Fetch -->
             <div class="slds-p-around_medium slds-grid slds-wrap slds-grid_align-spread">
                 <lightning-input 
                     type="number"
@@ -92,7 +87,6 @@
             </div>
         </template>
 
-        <!-- Data Table -->
         <template if:true={records.length}>
             <div class="slds-p-around_medium">
                 <lightning-datatable
@@ -106,7 +100,6 @@
             </div>
         </template>
 
-        <!-- No Records Message -->
         <template if:true={noRecords}>
             <p class="slds-text-color_error slds-text-align_center slds-p-vertical_medium">
                 ⚠️ No records found or please select fields.
@@ -115,104 +108,3 @@
     </lightning-card>
 </template>
 
-
-
-
-<!-- <template>
-    <lightning-card title="Records">
-        <div class="slds-p-around_medium slds-grid slds-grid_align-spread slds-wrap">
-            <lightning-combobox
-                name="objectSelector"
-                label="Select Object"
-                value={selectedObject}
-                placeholder="Choose an object"
-                options={objectOptions}
-                onchange={handleObjectChange}
-                style="width: 25%;">
-            </lightning-combobox>
-        </div>
-
-        <template if:true={fieldOptions.length}>
-            <div class="slds-p-around_medium">
-                <lightning-dual-listbox
-                    name="fieldSelector"
-                    label="Select Fields"
-                    source-label="Available Fields"
-                    selected-label="Selected Fields"
-                    options={fieldOptions}
-                    value={selectedFields}
-                    onchange={handleFieldChange}>
-                </lightning-dual-listbox>
-
-                <lightning-input type="checkbox"
-                    label="All Fields"
-                    checked={isAllFieldsSelected}
-                    onchange={handleAllFieldsChange}
-                    disabled={isDisableAllFields}>
-                </lightning-input>
-                
-                <lightning-input type="checkbox"
-                    label="Standard Fields"
-                    checked={isAllStandardSelected}
-                    onchange={handleAllStandardFieldsChange}
-                    disabled={isDisableStandardFields}>
-                </lightning-input>
-
-                <lightning-input type="checkbox"
-                    label="Custom Fields"
-                    checked={isAllCustomSelected}
-                    onchange={handleAllCustomFieldsChange}
-                    disabled={isDisableCustomFields}>
-                </lightning-input>
-
-                <div style="display: flex; justify-content:right; margin-top:10px;">
-                    <lightning-button 
-                        label="Generate Preview"
-                        variant="brand"
-                        onclick={handleGeneratePreview}
-                        disabled={isDiablePermission}>
-                    </lightning-button>
-                </div>
-            </div>
-        
-
-            <div class="slds-p-around_medium slds-grid slds-grid_align-spread slds-wrap">
-                <lightning-input 
-                    type="number"
-                    name="limitInput"
-                    label="Record Limit"
-                    value={recordLimit}
-                    min="1"
-                    max="100"
-                    onchange={handleLimitChange}
-                    style="width: 20%;"
-                    placeholder="Leave blank to fetch all records">
-                </lightning-input>
-
-                <lightning-button 
-                    label="Fetch Records"
-                    variant="brand"
-                    onclick={handleFetch}>
-                </lightning-button>
-            </div>
-        </template>
-
-        <template if:true={records.length}>
-            <div class="slds-p-around_medium">
-                <lightning-datatable
-                    key-field="Id"
-                    data={records}
-                    columns={columns}
-                    onrowselection={handleRowSelection}
-                    selected-rows={selectedRowIds}>
-                </lightning-datatable>
-            </div>
-        </template>
-
-        <template if:true={noRecords}>
-            <p class="slds-text-color_error slds-p-around_medium">
-                No records found or please select fields.
-            </p>
-        </template>
-    </lightning-card>
-</template> -->

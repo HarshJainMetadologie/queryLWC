@@ -45,8 +45,6 @@ public with sharing class DynamicQueryController {
             response.put('fields', new List<String>());
             return response;
         }
-
-        // Avoid relationship fields to prevent null reference errors
         List<String> safeFields = new List<String>();
         for (String f : fieldNames) {
             if (!f.contains('.')) safeFields.add(f);
@@ -59,7 +57,6 @@ public with sharing class DynamicQueryController {
 
         List<SObject> records = Database.query(soqlQuery);
 
-        // Detect non-empty fields
         for (SObject record : records) {
             for (String field : safeFields) {
                 Object val = record.get(field);
@@ -69,12 +66,14 @@ public with sharing class DynamicQueryController {
             }
         }
 
-        // Filter out empty records (where all selected fields are null)
         for (SObject record : records) {
             Map<String, Object> recMap = new Map<String, Object>();
             Boolean hasValue = false;
 
+            recMap.put('Id', record.Id);
+
             for (String field : nonEmptyFields) {
+                if (field == 'Id') continue; 
                 Object val = record.get(field);
                 if (val != null && String.valueOf(val).trim() != '') {
                     recMap.put(field, val);
